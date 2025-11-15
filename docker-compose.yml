@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: medlink-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-default-secret-key-change-in-production}
+      - AFRICASTALKING_USERNAME=${AFRICASTALKING_USERNAME:-sandbox}
+      - AFRICASTALKING_API_KEY=${AFRICASTALKING_API_KEY:-test-key}
+      - DATABASE_URL=sqlite:///./data/medlink.db
+    volumes:
+      - ./backend/data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend service (uncomment when ready)
+  # frontend:
+  #   build: 
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: medlink-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend
+  #   restart: unless-stopped
+
+networks:
+  default:
+    name: medlink-network
