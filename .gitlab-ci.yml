@@ -8,7 +8,7 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
-
+  AFRICASTALKING_USERNAME: "sandbox"
 # Test Stage - Run backend tests
 test:backend:
   stage: test
