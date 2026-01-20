@@ -3,6 +3,7 @@ MedLink SMS - FastAPI Backend
 Healthcare communication platform for sending lab results via Africa's Talking SMS API
 """
 
+from stellar_service import log_transaction_safe
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -301,6 +302,7 @@ def send_sms(sms_data: SMSRequest,
         db.add(message_log)
         db.commit()
         db.refresh(message_log)
+        log_transaction_safe(os.getenv("STELLAR_SECRET_KEY"), f"Sent SMS to {patient.phone}")
         
         return {
             "success": True,
