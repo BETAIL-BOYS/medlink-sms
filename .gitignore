@@ -9,7 +9,6 @@ env/
 ENV/
 
 # Environment variables
-.env
 *.env
 !.env.example
 
@@ -18,7 +17,6 @@ ENV/
 *.sqlite3
 
 # IDEs
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -40,3 +38,4 @@ build/
 
 # Docker
 .dockerignore
+config.bat
